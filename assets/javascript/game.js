@@ -236,6 +236,9 @@ document.onkeyup = function (event) {
             } else { // Otherwise, the game is over
                 // Display a game over message
                 document.getElementById("message").textContent = "Game over! The right answer was:";
+
+                // Play a sad noise
+                document.getElementById("gameOver").play();
                 
                 // Show the word they were trying to guess
                 currentGuess = currentWord;
