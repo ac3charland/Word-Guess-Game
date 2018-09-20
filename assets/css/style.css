@@ -1,0 +1,33 @@
+html {
+    background-image: url("../images/whiteHouseGif.gif");
+    background-color: white;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+body {
+    background-color: transparent;
+}
+
+.game-box {
+    background-color: rgba(230, 230, 230, 0.8);
+    border-radius: 15px;
+}
+
+#portrait {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 300px;
+    border-radius: 15px;
+}
+
+#funFact {
+    margin: 20px;
+}
+
+#blanks {
+    font-size: 8vw;
+}

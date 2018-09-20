@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Word Guess Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
+</head>
+<body>
+    <nav class="nav navbar-light bg-light">
+        <h1 class="mx-auto text-center">The U.S. Presidents Word-Guessing Game</h1>
+    </nav>
+    
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-md-3 game-box">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h2>Score:</h2>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h2 id="score">0</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3 text-center mt-2">
+                <button type="button" id="refresh" class="btn btn-lg btn-danger mt-2" style="visibility:hidden;" onclick="reset();">Continue</button>
+            </div>
+        </div>
+        <div class="row text-center mt-2">
+            <div class="col-md-12 game-box">
+                <h1 id="message">Fillmore</h1>
+                <h1 id="blanks">_</h1>
+            </div>
+        </div>
+        <div id="status-box" class="row mt-2">
+            <div class="col-md-7 game-box">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h2>Incorrect Letters:</h2>
+                    </div>
+                    <div class="col-md-8">
+                        <h2 id="previousGuesses">Letters Guessed: </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-4 game-box">
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h2>Strikes Remaining:</h2>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        <h2 id="strikes">You have 5 incorrect letters remaining.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2" id="winBox" style="visibility: hidden;">
+            <div class="col-md-5 text-center my-auto game-box">
+                <img src="#" id="portrait" class="img-fluid" alt="portrait">
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-6 game-box">
+                <h4 id="funFact"></h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <button type="button" id="refresh" class="btn btn-lg btn-danger mt-2" style="visibility:hidden;" onclick="reset();">Continue</button>
+            </div>
+        </div>        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="assets/javascript/game.js"></script>    
+</body>
+</html>
