@@ -54,12 +54,23 @@ function pickRandomPresident() {
 
     // If all indices of words.length have already been used, the user has won the game.
     if (previousIndices.length === words.length) {
+        // Hide the Incorrect Letters and Strikes Remaining boxes
         document.getElementById("status-box").style.visibility = "hidden";
+        
+        // Show the button and have it invite the user to play again.
         document.getElementById("refresh").style.visibility = "visible";
         document.getElementById("refresh").textContent = "Play Again";
+
         // Display congrats message
         document.getElementById("message").textContent = "Congrats! You've gone through all the presidents (that I coded).";
+        
+        // Play a song
+        document.getElementById("gameWon").play();
+
+        // Clear the previously used word indices
         previousIndices = [];
+
+        // Update the game status
         gameWon = true;
         return;
     }
@@ -88,13 +99,16 @@ function pickRandomPresident() {
 function spellGuess() {
     // Create a temporary string
     var letters = ""
-    
+
+    // Add each letter from the user's current guess to letters, with spaces added between letters
     for (var k=0; k < currentGuess.length; k++) {
         letters += currentGuess[k].toUpperCase();
         if (k < currentGuess.length - 1) {
             letters += " ";
         }
     }
+
+    // Assign the value of letters to the "blanks" element on the page.
     document.getElementById("blanks").textContent = letters
 }
 
@@ -103,6 +117,7 @@ function printGuessesRemaining() {
     document.getElementById("strikes").textContent = strikesRemaining;
 }
 
+// Write the user's current score to the page.
 function printScore() {
     document.getElementById("score").textContent = score;
 }
@@ -118,38 +133,65 @@ function printPreviousGuesses() {
     document.getElementById("previousGuesses").textContent = previousGuessesString;
 }
 
-// Code to reset the page.
+// Resets the page. The button that appears on the page triggers this function.
 function reset() {
-    if (gameWon) {
+    // If the user has won or lost the game, reset and refresh their score.
+    if (gameWon || gameOver) {
         score = 0;
         printScore();
+        gameWon = false;
+        gameOver = false;
     }
+
+    // Reset and refresh remaining strikes.
     strikesRemaining = 5;
     printGuessesRemaining();
+
+    // Reset and refresh previously guessed letters.
     previousGuesses = [];
     printPreviousGuesses();
+
+    // Clear any message at the top of the screen.
     document.getElementById("message").textContent = "";
-    document.getElementById("refresh").style.visibility = "hidden";
-    document.getElementById("refresh").textContent = "Continue";
-    document.getElementById("funFact").textContent = "";
+
+    // Show the previously guessed letters box and the remaining strikes box in case it was hiddden.
     document.getElementById("status-box").style.visibility = "visible";
+
+    // Hide the button & reset its text.
+    document.getElementById("refresh").style.visibility = "hidden";
+    document.getElementById("refresh").textContent = "Next";
+
+    // Clear the contents of the win-box and hide it.
+    document.getElementById("funFact").textContent = "";
+    document.getElementById("portrait").src = "#";
+    document.getElementById("winBox").style.visibility = "hidden";
+
+    // Update game status
     wordWon = false;
     gameOver = false;
-    document.getElementById("winBox").style.visibility = "hidden";
-    document.getElementById("portrait").src = "#";
+
+    // Stop playing Yankee Doodle if it was already
+    document.getElementById("gameWon").pause();
+    document.getElementById("gameWon").load();
+
+    // Pick a new word and write it to the DOM.
     pickRandomPresident();
     spellGuess();
 }
 
+// Set up the page on load.
 document.onload = reset();
 
 
 
 // When the user presses a key, run this code
 document.onkeyup = function (event) {
+    // Hide the instructions after the first key press
+    document.getElementById("instructions").style.display = "none";
+
     keyPressed = event.key;
 
-    // Don't do anything if the user lost the game.
+    // Don't do anything if the user lost the game or won the round.
     if (gameOver || wordWon) {
         return;
     }
@@ -177,19 +219,33 @@ document.onkeyup = function (event) {
 
         // Trigger the following code block if the user's guess was wrong
         if (!correctlyGuessed) {
+            // If the user still has guesses remaining, this code runs
             if (strikesRemaining > 0) {
+                // If the user hasn't guessed this wrong letter before...
                 if (previousGuesses.indexOf(undercaseLetter) == -1) {
+                    // Take off a strike
                     strikesRemaining--;
+
+                    // Add their guess to the previousguesses array
                     previousGuesses.push(undercaseLetter);
+
+                    // Refresh the relevent page displays
                     printGuessesRemaining();
                     printPreviousGuesses();
                 }
-            } else {
+            } else { // Otherwise, the game is over
+                // Display a game over message
                 document.getElementById("message").textContent = "Game over! The right answer was:";
+                
+                // Show the word they were trying to guess
                 currentGuess = currentWord;
                 spellGuess();
+                
+                // Show the button and update its text
                 document.getElementById("refresh").textContent = "Try Again"
                 document.getElementById("refresh").style = "visible";
+
+                // Update the game state & exit the function.
                 gameOver = true;
                 return;
             }
@@ -203,19 +259,31 @@ document.onkeyup = function (event) {
         // Print the user's current guess to the page.
         spellGuess();
 
-        // If the user has guessed all the letters (no blank characters in currentGuess), show a congrats message.
+        // If the user has guessed all the letters (no blank characters in currentGuess), they've guessed the word.
         if (currentGuess.indexOf("_") == -1) {
+            // Show a congratulations message
             document.getElementById("message").textContent = "Congrats, you got it!";
+
+            // Play a song
+            document.getElementById("winNoise").play();
+
+            // Assign a fun fact to the #funFact box.
             document.getElementById("funFact").textContent = funFacts[i];
-            document.getElementById("refresh").style.visibility = "visible";
-            document.getElementById("winBox").style.visibility = "visible";
+
+            // Load an image to the #portrait box using the URL
             var portraitSrc = "assets/images/presidentialPortraits/"
             portraitSrc += i;
             portraitSrc += ".jpg";
             document.getElementById("portrait").src = portraitSrc;
-            console.log("Current i: " + i);
-            console.log("Img Src: " + portraitSrc);
+
+            // Show the "Next" button, as well as the fun fact and portrait contained in #winBox
+            document.getElementById("refresh").style.visibility = "visible";
+            document.getElementById("winBox").style.visibility = "visible";
+        
+            // Update the game status
             wordWon = true;
+
+            // Update the score
             score += (10 - (5 - strikesRemaining))
             printScore();
         }
